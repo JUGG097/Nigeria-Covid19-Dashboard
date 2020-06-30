@@ -9,6 +9,8 @@
     var foliumURL = "https://folium-choropleth-map.herokuapp.com";
 
     var tableUrl = "https://covidnigeria.herokuapp.com/api/";
+
+    var summaryHTML = "snippet/total-snippet.html"
     
     // Convenience function for inserting innerHTML for 'select'
     var insertHtml = function (selector, html) {
@@ -33,6 +35,42 @@
     document.addEventListener("DOMContentLoaded", function (event) {
 
 
+    showLoading("#summary");
+    $ajaxUtils.sendGetRequest(
+    tableUrl,
+    buildAndShowSummaryHTML);
+
+    function buildAndShowSummaryHTML (categories) {
+
+        $ajaxUtils.sendGetRequest(
+            summaryHTML,
+            function (summaryHTML) {
+              var summaryViewHtml =
+                buildSummaryViewHtml(categories,
+                                        summaryHTML);
+              insertHtml("#summary", summaryViewHtml);
+            },
+            false);
+    }
+
+    function buildSummaryViewHtml(categories,
+        summaryHTML) {
+        
+        
+        var html = summaryHTML;
+        var confirmedcases = "" + categories.data.totalConfirmedCases;
+        var activecases = categories.data.totalActiveCases;
+        var totaldeath = categories.data.death;
+        var totaldischarged = categories.data.discharged;
+        html = insertProperty(html, "total_cases", confirmedcases);
+        html = insertProperty(html, "total_active_cases", activecases);
+        html = insertProperty(html, "total_death", totaldeath);
+        html = insertProperty(html, "total_discharged", totaldischarged);
+
+        return html
+
+        }
+
 
 
     showLoading("#tabledata");
@@ -56,8 +94,8 @@
     function buildCategoriesViewHtml(categories,
         tableHtml) {
         
-        var finalHtml = "<table class='table table-striped table-dark text-center'>";
-        finalHtml += "<thead> <tr> <th scope='col'>State</th> <th scope='col'>Cases</th> <th scope='col'>Deaths</th> <th scope='col'>Discharged</th> </tr> </thead> <tbody>"
+        var finalHtml = "<table class='table table-striped table-bordered table-hover text-center'> <caption>Case Distribution per State</caption>";
+        finalHtml += "<thead> <tr> <th scope='col' class='tileshead'>State</th> <th scope='col' class='tilesorangehead'>Cases</th> <th scope='col' class='tilesgreenhead'>Discharged</th> <th scope='col' class='tilesredhead'>Deaths</th>  </tr> </thead> <tbody>"
         // Loop over categories
         for (var i = 0; i < categories.data.states.length; i++) {
         // Insert category values

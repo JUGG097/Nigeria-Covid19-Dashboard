@@ -15,3 +15,51 @@
 .navbackground a {
     color: white;
 }
+
+.tiles {
+    background-color: #29648A;
+    color: white;
+ 
+}
+
+.tileshead {
+    background-color: #29648A;
+    color: white;
+    font-weight: bolder;
+}
+
+.tilesred {
+    background-color: #29648A;
+    color: rgb(233, 108, 108);
+
+}
+
+.tilesredhead {
+    background-color: #29648A;
+    color: rgb(233, 108, 108);
+    font-weight: bolder;
+}
+
+.tilesgreen {
+    background-color: #29648A;
+    color: rgb(225, 240, 12);
+}
+
+.tilesgreenhead {
+    background-color: #29648A;
+    color: rgb(225, 240, 12);
+    font-weight: bolder;
+}
+
+
+.tilesorange {
+    background-color: #29648A;
+    color: orange;
+
+}
+
+.tilesorangehead {
+    background-color: #29648A;
+    color: orange;
+    font-weight: bolder;
+}
