@@ -1,3 +1,17 @@
 .fixed-bottom {
     position: static;
 }
+
+.embed-responsive {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.navbackground {
+    background-color: #29648A;
+    color: white;
+}
+
+.navbackground a {
+    color: white;
+}
