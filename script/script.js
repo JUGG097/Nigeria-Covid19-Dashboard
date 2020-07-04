@@ -20,8 +20,8 @@
     
     // Show loading icon inside element identified by 'selector'.
     var showLoading = function (selector) {
-      var html = "<div class='text-center'>";
-      html += "<img src='ajax-loader.gif'></div>";
+      var html = "<div class='col-12 text-center'>";
+      html += "<img src='img/ajax_loader.gif'></div>";
       insertHtml(selector, html);
     };
 
@@ -94,7 +94,7 @@
     function buildCategoriesViewHtml(categories,
         tableHtml) {
         
-        var finalHtml = "<table class='table table-striped table-bordered table-hover text-center'> <caption>Case Distribution per State</caption>";
+        var finalHtml = "<table class='table table-striped table-bordered table-hover text-center'>";
         finalHtml += "<thead> <tr> <th scope='col' class='tileshead'>State</th> <th scope='col' class='tilesorangehead'>Cases</th> <th scope='col' class='tilesgreenhead'>Discharged</th> <th scope='col' class='tilesredhead'>Deaths</th>  </tr> </thead> <tbody>"
         // Loop over categories
         for (var i = 0; i < categories.data.states.length; i++) {

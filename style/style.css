@@ -68,3 +68,13 @@ a:hover {
     color: red;
     opacity: 0.8;
 }
+
+h2 {
+    font-size: 16px;
+    margin-top: 1em;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
