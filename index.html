@@ -3,21 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COVID-19 DASHBOARD</title>
+    <title>COVID-19 TRACKER</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/21a2c5f26f.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
     <nav class="mb-3 navbackground">
         <div class="container">
-            <div class="navbar">
-                <a class="navbar-brand" href="#"><img class= "flag"src="img/Flag_of_Nigeria.svg">COVID19 DASHBOARD</a>
-                
-                <div>
-                    <a href="https://github.com/JUGG097/Nigeria-Covid19-Dashboard" title="GitHub Repo" target="_blank"><i class="fas fa-file-code fa-2x"></i></a>
+            <div class="navbar navbar-expand-md navbar-dark">
+                <a class="navbar-brand myboldtext-2" href="#"><img class= "flag"src="img/Flag_of_Nigeria.svg">COVID19 TRACKER</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon" style="color: red;"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto text-center">
+                      <li class="nav-item">
+                        <a class="nav-link" href="#summary">Totals</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#tabledata">Cases</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#folium-map">Map</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/JUGG097/Nigeria-Covid19-Dashboard" title="GitHub Repo" target="_blank"">Repo</a>
+                      </li>
+                    </ul>
                 </div>
+                
+               <!-- <div>
+                    <a href="https://github.com/JUGG097/Nigeria-Covid19-Dashboard" title="GitHub Repo" target="_blank"><i class="fas fa-file-code fa-2x"></i></a>
+                </div> -->
             </div>
         </div>
     </nav>
@@ -25,14 +45,21 @@
 
     <main class="container">
         <div class="row text-center">
-            <h2 class="col-12">STATS SUMMATION</h2>
+            <h2 class="col-12 myboldtext">TOTALS</h2>
         </div>
-        <div class="row text-center mb-3" id="summary">
+        <div class="row text-center mb-3 totals-padding" id="summary">
     
         </div>
 
         <div class="row text-center">
-            <h2 class="col-12">CASE DISTRIBUTION BY STATE</h2>
+            <h2 class="col-12 myboldtext">RATES</h2>
+        </div>
+        <div class="row text-center mb-3 totals-padding" id="rate">
+
+        </div>
+
+        <div class="row text-center">
+            <h2 class="col-12 myboldtext">CASES BY STATE</h2>
         </div>
         <div class="row">
             <div class="col-12 table-responsive" id="tabledata">
@@ -41,7 +68,7 @@
         </div>
 
         <div class="row text-center">
-            <h2 class="col-12">MAP VISUALIZATION (<i>best viewed on laptops or bigger screen</i>)</h2>
+            <h2 class="col-12 myboldtext">MAP VISUALIZATION (<i>best viewed on laptops or bigger screen</i>)</h2>
         </div>
         <div class="row">
             <!--embed-responsive-16by9-->

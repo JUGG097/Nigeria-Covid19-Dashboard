@@ -10,7 +10,9 @@
 
     var tableUrl = "https://covidnigeria.herokuapp.com/api/";
 
-    var summaryHTML = "snippet/total-snippet.html"
+    var summaryHTML = "snippet/total-snippet.html";
+
+    var rateHTML = "snippet/rate-snippet.html";
     
     // Convenience function for inserting innerHTML for 'select'
     var insertHtml = function (selector, html) {
@@ -59,17 +61,51 @@
         
         var html = summaryHTML;
         var confirmedcases = "" + categories.data.totalConfirmedCases;
-        var activecases = categories.data.totalActiveCases;
+        //var activecases = categories.data.totalActiveCases;
         var totaldeath = categories.data.death;
         var totaldischarged = categories.data.discharged;
-        html = insertProperty(html, "total_cases", confirmedcases);
-        html = insertProperty(html, "total_active_cases", activecases);
+        html = insertProperty(html, "total_cases", Number(confirmedcases));
         html = insertProperty(html, "total_death", totaldeath);
         html = insertProperty(html, "total_discharged", totaldischarged);
 
         return html
 
         }
+
+    
+        showLoading("#rate");
+        $ajaxUtils.sendGetRequest(
+        tableUrl,
+        buildAndShowRateHTML);
+    
+        function buildAndShowRateHTML (categories) {
+    
+            $ajaxUtils.sendGetRequest(
+                rateHTML,
+                function (rateHTML) {
+                  var rateViewHtml =
+                    buildRateViewHtml(categories,
+                                            rateHTML);
+                  insertHtml("#rate", rateViewHtml);
+                },
+                false);
+        }
+    
+        function buildRateViewHtml(categories,
+            rateHTML) {
+            
+            
+            var html = rateHTML;
+            
+            var ratedeath = Math.round((Number(categories.data.death)) / (Number(categories.data.totalConfirmedCases)) * 1000) / 10;
+            var rateDischarged = Math.round((Number(categories.data.discharged)) / (Number(categories.data.totalConfirmedCases)) * 1000) / 10;
+            
+            html = insertProperty(html, "rate_death", (ratedeath+"%"));
+            html = insertProperty(html, "rate_discharge", (rateDischarged+"%"));
+    
+            return html
+    
+            }
 
 
 
@@ -95,7 +131,7 @@
         tableHtml) {
         
         var finalHtml = "<table class='table table-striped table-bordered table-hover text-center'>";
-        finalHtml += "<thead> <tr> <th scope='col' class='tileshead'>State</th> <th scope='col' class='tilesorangehead'>Cases</th> <th scope='col' class='tilesgreenhead'>Discharged</th> <th scope='col' class='tilesredhead'>Deaths</th>  </tr> </thead> <tbody>"
+        finalHtml += "<thead> <tr> <th scope='col' class='tileshead'>State</th> <th scope='col' class='tilesorangehead'>Cases</th> <th scope='col' class='tilesgreenhead'>Recovered</th> <th scope='col' class='tilesredhead'>Deaths</th>  </tr> </thead> <tbody>"
         // Loop over categories
         for (var i = 0; i < categories.data.states.length; i++) {
         // Insert category values

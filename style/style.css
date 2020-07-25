@@ -88,3 +88,21 @@ h2 {
     margin-right: 2px;
     padding-bottom: 3px;
 }
+
+.totals-padding {
+    padding: 0 14px;
+}
+
+.myboldtext {
+    font-family: 'Roboto Slab', serif;
+    font-weight: bolder;
+}
+
+.myboldtext-2 {
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
