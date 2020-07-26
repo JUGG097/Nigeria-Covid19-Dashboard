@@ -4,31 +4,31 @@
     
     var tableHtml = "snippet/table-snippet.html";
 
-    var iframeHTML = "snippet/iframe-snippet.html";
+    let iframeHTML = "snippet/iframe-snippet.html";
 
-    var foliumURL = "https://folium-choropleth-map.herokuapp.com";
+    const foliumURL = "https://folium-choropleth-map.herokuapp.com";
 
-    var tableUrl = "https://covidnigeria.herokuapp.com/api/";
+    const tableUrl = "https://covidnigeria.herokuapp.com/api/";
 
-    var summaryHTML = "snippet/total-snippet.html";
+    const summaryHTML = "snippet/total-snippet.html";
 
-    var rateHTML = "snippet/rate-snippet.html";
+    const rateHTML = "snippet/rate-snippet.html";
     
     // Convenience function for inserting innerHTML for 'select'
-    var insertHtml = function (selector, html) {
-      var targetElem = document.querySelector(selector);
+    const insertHtml = function (selector, html) {
+      let targetElem = document.querySelector(selector);
       targetElem.innerHTML = html;
     };
     
     // Show loading icon inside element identified by 'selector'.
-    var showLoading = function (selector) {
-      var html = "<div class='col-12 text-center'>";
+    const showLoading = function (selector) {
+      let html = "<div class='col-12 text-center'>";
       html += "<img src='img/ajax_loader.gif'></div>";
       insertHtml(selector, html);
     };
 
-    var insertProperty = function (string, propName, propValue) {
-        var propToReplace = "{{" + propName + "}}";
+    const insertProperty = function (string, propName, propValue) {
+        let propToReplace = "{{" + propName + "}}";
         string = string
           .replace(new RegExp(propToReplace, "g"), propValue);
         return string;
@@ -47,7 +47,7 @@
         $ajaxUtils.sendGetRequest(
             summaryHTML,
             function (summaryHTML) {
-              var summaryViewHtml =
+              let summaryViewHtml =
                 buildSummaryViewHtml(categories,
                                         summaryHTML);
               insertHtml("#summary", summaryViewHtml);
@@ -59,12 +59,12 @@
         summaryHTML) {
         
         
-        var html = summaryHTML;
-        var confirmedcases = "" + categories.data.totalConfirmedCases;
+        let html = summaryHTML;
+        let confirmedcases = categories.data.totalConfirmedCases;
         //var activecases = categories.data.totalActiveCases;
-        var totaldeath = categories.data.death;
-        var totaldischarged = categories.data.discharged;
-        html = insertProperty(html, "total_cases", Number(confirmedcases));
+        let totaldeath = categories.data.death;
+        let totaldischarged = categories.data.discharged;
+        html = insertProperty(html, "total_cases", confirmedcases);
         html = insertProperty(html, "total_death", totaldeath);
         html = insertProperty(html, "total_discharged", totaldischarged);
 
@@ -83,7 +83,7 @@
             $ajaxUtils.sendGetRequest(
                 rateHTML,
                 function (rateHTML) {
-                  var rateViewHtml =
+                  let rateViewHtml =
                     buildRateViewHtml(categories,
                                             rateHTML);
                   insertHtml("#rate", rateViewHtml);
@@ -95,10 +95,10 @@
             rateHTML) {
             
             
-            var html = rateHTML;
+            let html = rateHTML;
             
-            var ratedeath = Math.round((Number(categories.data.death)) / (Number(categories.data.totalConfirmedCases)) * 1000) / 10;
-            var rateDischarged = Math.round((Number(categories.data.discharged)) / (Number(categories.data.totalConfirmedCases)) * 1000) / 10;
+            const ratedeath = Math.round((Number(categories.data.death)) / (Number(categories.data.totalConfirmedCases)) * 1000) / 10;
+            const rateDischarged = Math.round((Number(categories.data.discharged)) / (Number(categories.data.totalConfirmedCases)) * 1000) / 10;
             
             html = insertProperty(html, "rate_death", (ratedeath+"%"));
             html = insertProperty(html, "rate_discharge", (rateDischarged+"%"));
@@ -119,7 +119,7 @@
         $ajaxUtils.sendGetRequest(
             tableHtml,
             function (tableHtml) {
-              var categoriesViewHtml =
+              let categoriesViewHtml =
                 buildCategoriesViewHtml(categories,
                                         tableHtml);
               insertHtml("#tabledata", categoriesViewHtml);
@@ -130,20 +130,20 @@
     function buildCategoriesViewHtml(categories,
         tableHtml) {
         
-        var finalHtml = "<table class='table table-striped table-bordered table-hover text-center'>";
+        let finalHtml = "<table class='table table-striped table-bordered table-hover text-center'>";
         finalHtml += "<thead> <tr> <th scope='col' class='tileshead'>State</th> <th scope='col' class='tilesorangehead'>Cases</th> <th scope='col' class='tilesgreenhead'>Recovered</th> <th scope='col' class='tilesredhead'>Deaths</th>  </tr> </thead> <tbody>"
-        // Loop over categories
-        for (var i = 0; i < categories.data.states.length; i++) {
-        // Insert category values
-        var html = tableHtml;
-        var state = "" + categories.data.states[i].state;
-        var cases = categories.data.states[i].confirmedCases;
-        var death = categories.data.states[i].death;
-        var discharged = categories.data.states[i].discharged;
-        html = insertProperty(html, "state", state);
-        html = insertProperty(html, "cases", cases);
-        html = insertProperty(html, "deaths", death);
-        html = insertProperty(html, "discharged", discharged);
+        // Loop over states
+        for (statename of categories.data.states) {
+            // Insert state values
+            let html = tableHtml;
+            let state = "" + statename.state;
+            let cases = statename.confirmedCases;
+            let death = statename.death;
+            let discharged = statename.discharged;
+            html = insertProperty(html, "state", state);
+            html = insertProperty(html, "cases", cases);
+            html = insertProperty(html, "deaths", death);
+            html = insertProperty(html, "discharged", discharged);
 
             finalHtml += html;
         }
@@ -160,7 +160,7 @@
       $ajaxUtils.sendGetRequest(
           iframeHTML,
           function (iframeHTML) {
-            var iframeViewHtml =
+            let iframeViewHtml =
               buildIframeViewHtml(
                                       iframeHTML);
             insertHtml("#folium-map", iframeViewHtml);
@@ -172,11 +172,11 @@
         iframeHTML) {
         
         
-        var html = iframeHTML;
-        var site = foliumURL;
+        //let html = iframeHTML;
+        //const site = foliumURL;
         
-        html = insertProperty(html, "site_name", site);
-        return html;
+        iframeHTML = insertProperty(iframeHTML, "site_name", foliumURL);
+        return iframeHTML;
     }
 
 

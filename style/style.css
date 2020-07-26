@@ -103,6 +103,10 @@ h2 {
     font-weight: bold;
 }
 
+.mytext {
+    font-family: 'Tangerine', cursive;
+    font-size: medium;
+}
 .navbar-dark .navbar-nav .nav-link {
     color: white;
 }
