@@ -8,7 +8,7 @@
 
     const foliumURL = "https://folium-choropleth-map.herokuapp.com";
 
-    const tableUrl = "https://covidnigeria.herokuapp.com/api/";
+    const tableUrl = "https://ng-covid-19-api.herokuapp.com/";
 
     const summaryHTML = "snippet/total-snippet.html";
 
@@ -60,10 +60,12 @@
         
         
         let html = summaryHTML;
-        let confirmedcases = categories.data.totalConfirmedCases;
+        //let confirmedcases = categories.data.totalConfirmedCases;
+        let confirmedcases = categories["summary"]["Confirmed Cases"];
         //var activecases = categories.data.totalActiveCases;
-        let totaldeath = categories.data.death;
-        let totaldischarged = categories.data.discharged;
+        let totaldeath = categories["summary"]["Death"];
+        let totaldischarged = categories["summary"]["Discharged Cases"];
+      
         html = insertProperty(html, "total_cases", confirmedcases);
         html = insertProperty(html, "total_death", totaldeath);
         html = insertProperty(html, "total_discharged", totaldischarged);
@@ -97,8 +99,8 @@
             
             let html = rateHTML;
             
-            const ratedeath = Math.round((Number(categories.data.death)) / (Number(categories.data.totalConfirmedCases)) * 1000) / 10;
-            const rateDischarged = Math.round((Number(categories.data.discharged)) / (Number(categories.data.totalConfirmedCases)) * 1000) / 10;
+            const ratedeath = Math.round((Number(categories["summary"]["Death"].replace(/,/g, ""))) / (Number(categories["summary"]["Confirmed Cases"].replace(/,/g, ""))) * 1000) / 10;
+            const rateDischarged = Math.round((Number(categories["summary"]["Discharged Cases"].replace(/,/g, ""))) / (Number(categories["summary"]["Confirmed Cases"].replace(/,/g, ""))) * 1000) / 10;
             
             html = insertProperty(html, "rate_death", (ratedeath+"%"));
             html = insertProperty(html, "rate_discharge", (rateDischarged+"%"));
@@ -133,13 +135,13 @@
         let finalHtml = "<table class='table table-striped table-bordered table-hover text-center'>";
         finalHtml += "<thead> <tr> <th scope='col' class='tileshead'>State</th> <th scope='col' class='tilesorangehead'>Cases</th> <th scope='col' class='tilesgreenhead'>Recovered</th> <th scope='col' class='tilesredhead'>Deaths</th>  </tr> </thead> <tbody>"
         // Loop over states
-        for (statename of categories.data.states) {
+        for (statename of Object.keys(categories["states"])) {
             // Insert state values
             let html = tableHtml;
-            let state = "" + statename.state;
-            let cases = statename.confirmedCases;
-            let death = statename.death;
-            let discharged = statename.discharged;
+            let state = statename;
+            let cases = categories["states"][statename][0]["confirmed"];
+            let death = categories["states"][statename][0]["deaths"];
+            let discharged = categories["states"][statename][0]["discharged"];
             html = insertProperty(html, "state", state);
             html = insertProperty(html, "cases", cases);
             html = insertProperty(html, "deaths", death);
