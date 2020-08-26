@@ -1,8 +1,4 @@
-(function (global) {
-
-    var dc = {};
-    
-    var tableHtml = "snippet/table-snippet.html";
+(function () {
 
     let iframeHTML = "snippet/iframe-snippet.html";
 
@@ -27,163 +23,177 @@
       insertHtml(selector, html);
     };
 
-    const insertProperty = function (string, propName, propValue) {
-        let propToReplace = "{{" + propName + "}}";
-        string = string
-          .replace(new RegExp(propToReplace, "g"), propValue);
-        return string;
-    };
+    // const insertProperty = function (string, propName, propValue) {
+    //     let propToReplace = "{{" + propName + "}}";
+    //     string = string
+    //       .replace(new RegExp(propToReplace, "g"), propValue);
+    //     return string;
+    // };
+
+    const loadTable = function (wholeJson) {
+      let finalHtml = "<table class='table table-striped table-bordered table-hover text-center'>";
+      finalHtml += "<thead> <tr> <th scope='col' class='tileshead'>State</th> <th scope='col' class='tilesorangehead'>Cases</th> <th scope='col' class='tilesgreenhead'>Recovered</th> <th scope='col' class='tilesredhead'>Deaths</th>  </tr> </thead> <tbody>"
+      // Loop over categories
+      for (statename of Object.keys(wholeJson["states"])) {
+        
+        
+        let state = statename;
+        let cases = wholeJson["states"][statename][0]["confirmed"];
+        let death = wholeJson["states"][statename][0]["deaths"];
+        let discharged = wholeJson["states"][statename][0]["discharged"];
+        let html = `<tr>
+                      <td class="tiles">${state}</td>
+                      <td class="tilesorange">${cases}</td>
+                      <td class = "tilesgreen">${discharged}</td>
+                      <td class="tilesred">${death}</td>
+                    </tr>`
+        finalHtml += html;
+      }
+      finalHtml += "</table>";
+      //console.log(finalHtml)
+      insertHtml("#tabledata", finalHtml); 
+    }
+
+    const loadSummary = function(wholeJson) {
+      let confirmedcases = wholeJson["summary"]["Confirmed Cases"];
+      let totaldeath = wholeJson["summary"]["Death"];
+      let totaldischarged = wholeJson["summary"]["Discharged Cases"];
+
+      let html = `<div class="col-sm-4 tileshead">
+                    <p>T.CASES</p>
+                    <p>${confirmedcases}</p>
+                  </div>
+                
+                  <div class="col-sm-4 tilesgreenhead">
+                      <p>T.RECOVERED</p>
+                      <p>${totaldischarged}</p>
+                  </div>
+                  
+                  <div class="col-sm-4 tilesredhead">
+                      <p>T.DEATH</p>
+                      <p>${totaldeath}</p>
+                  </div>`
+
+      insertHtml("#summary", html);
+    }
 
     document.addEventListener("DOMContentLoaded", function (event) {
 
 
     showLoading("#summary");
-    $ajaxUtils.sendGetRequest(
-    tableUrl,
-    buildAndShowSummaryHTML);
+    // $ajaxUtils.sendGetRequest(
+    // tableUrl,
+    // buildAndShowSummaryHTML);
 
-    function buildAndShowSummaryHTML (categories) {
+    // function buildAndShowSummaryHTML (categories) {
 
-        $ajaxUtils.sendGetRequest(
-            summaryHTML,
-            function (summaryHTML) {
-              let summaryViewHtml =
-                buildSummaryViewHtml(categories,
-                                        summaryHTML);
-              insertHtml("#summary", summaryViewHtml);
-            },
-            false);
-    }
+    //     $ajaxUtils.sendGetRequest(
+    //         summaryHTML,
+    //         function (summaryHTML) {
+    //           let summaryViewHtml =
+    //             buildSummaryViewHtml(categories,
+    //                                     summaryHTML);
+    //           insertHtml("#summary", summaryViewHtml);
+    //         },
+    //         false);
+    // }
 
-    function buildSummaryViewHtml(categories,
-        summaryHTML) {
+    // function buildSummaryViewHtml(categories,
+    //     summaryHTML) {
         
         
-        let html = summaryHTML;
-        //let confirmedcases = categories.data.totalConfirmedCases;
-        let confirmedcases = categories["summary"]["Confirmed Cases"];
-        //var activecases = categories.data.totalActiveCases;
-        let totaldeath = categories["summary"]["Death"];
-        let totaldischarged = categories["summary"]["Discharged Cases"];
+    //     let html = summaryHTML;
+    //     //let confirmedcases = categories.data.totalConfirmedCases;
+    //     let confirmedcases = categories["summary"]["Confirmed Cases"];
+    //     //var activecases = categories.data.totalActiveCases;
+    //     let totaldeath = categories["summary"]["Death"];
+    //     let totaldischarged = categories["summary"]["Discharged Cases"];
       
-        html = insertProperty(html, "total_cases", confirmedcases);
-        html = insertProperty(html, "total_death", totaldeath);
-        html = insertProperty(html, "total_discharged", totaldischarged);
+    //     html = insertProperty(html, "total_cases", confirmedcases);
+    //     html = insertProperty(html, "total_death", totaldeath);
+    //     html = insertProperty(html, "total_discharged", totaldischarged);
 
-        return html
+    //     return html
 
-        }
+    //     }
 
     
         showLoading("#rate");
-        $ajaxUtils.sendGetRequest(
-        tableUrl,
-        buildAndShowRateHTML);
+        // $ajaxUtils.sendGetRequest(
+        // tableUrl,
+        // buildAndShowRateHTML);
     
-        function buildAndShowRateHTML (categories) {
+        // function buildAndShowRateHTML (categories) {
     
-            $ajaxUtils.sendGetRequest(
-                rateHTML,
-                function (rateHTML) {
-                  let rateViewHtml =
-                    buildRateViewHtml(categories,
-                                            rateHTML);
-                  insertHtml("#rate", rateViewHtml);
-                },
-                false);
-        }
+        //     $ajaxUtils.sendGetRequest(
+        //         rateHTML,
+        //         function (rateHTML) {
+        //           let rateViewHtml =
+        //             buildRateViewHtml(categories,
+        //                                     rateHTML);
+        //           insertHtml("#rate", rateViewHtml);
+        //         },
+        //         false);
+        // }
     
-        function buildRateViewHtml(categories,
-            rateHTML) {
+        // function buildRateViewHtml(categories,
+        //     rateHTML) {
             
             
-            let html = rateHTML;
+        //     let html = rateHTML;
             
-            const ratedeath = Math.round((Number(categories["summary"]["Death"].replace(/,/g, ""))) / (Number(categories["summary"]["Confirmed Cases"].replace(/,/g, ""))) * 1000) / 10;
-            const rateDischarged = Math.round((Number(categories["summary"]["Discharged Cases"].replace(/,/g, ""))) / (Number(categories["summary"]["Confirmed Cases"].replace(/,/g, ""))) * 1000) / 10;
+        //     const ratedeath = Math.round((Number(categories["summary"]["Death"].replace(/,/g, ""))) / (Number(categories["summary"]["Confirmed Cases"].replace(/,/g, ""))) * 1000) / 10;
+        //     const rateDischarged = Math.round((Number(categories["summary"]["Discharged Cases"].replace(/,/g, ""))) / (Number(categories["summary"]["Confirmed Cases"].replace(/,/g, ""))) * 1000) / 10;
             
-            html = insertProperty(html, "rate_death", (ratedeath+"%"));
-            html = insertProperty(html, "rate_discharge", (rateDischarged+"%"));
+        //     html = insertProperty(html, "rate_death", (ratedeath+"%"));
+        //     html = insertProperty(html, "rate_discharge", (rateDischarged+"%"));
     
-            return html
+        //     return html
     
-            }
+        //     }
 
 
 
     showLoading("#tabledata");
-    $ajaxUtils.sendGetRequest(
-    tableUrl,
-    buildAndShowCategoriesHTML);
-
-    function buildAndShowCategoriesHTML (categories) {
-
-        $ajaxUtils.sendGetRequest(
-            tableHtml,
-            function (tableHtml) {
-              let categoriesViewHtml =
-                buildCategoriesViewHtml(categories,
-                                        tableHtml);
-              insertHtml("#tabledata", categoriesViewHtml);
-            },
-            false);
-    }
-
-    function buildCategoriesViewHtml(categories,
-        tableHtml) {
+    fetch(tableUrl).then(function(response) {
+      console.log(response.status) 
+      return response.json()}).then(function(wholeJson) {
         
-        let finalHtml = "<table class='table table-striped table-bordered table-hover text-center'>";
-        finalHtml += "<thead> <tr> <th scope='col' class='tileshead'>State</th> <th scope='col' class='tilesorangehead'>Cases</th> <th scope='col' class='tilesgreenhead'>Recovered</th> <th scope='col' class='tilesredhead'>Deaths</th>  </tr> </thead> <tbody>"
-        // Loop over states
-        for (statename of Object.keys(categories["states"])) {
-            // Insert state values
-            let html = tableHtml;
-            let state = statename;
-            let cases = categories["states"][statename][0]["confirmed"];
-            let death = categories["states"][statename][0]["deaths"];
-            let discharged = categories["states"][statename][0]["discharged"];
-            html = insertProperty(html, "state", state);
-            html = insertProperty(html, "cases", cases);
-            html = insertProperty(html, "deaths", death);
-            html = insertProperty(html, "discharged", discharged);
-
-            finalHtml += html;
-        }
-
-        
-        finalHtml += "</tbody> </table>";
-
-        return finalHtml;
-    }
-
+        loadTable(wholeJson);
+        loadSummary(wholeJson);
+      }).catch(function(error) {
+        console.log(error);
+        loadError(error, "#tabledata")
+      });
+   
     showLoading("#folium-map");
    
 
-      $ajaxUtils.sendGetRequest(
-          iframeHTML,
-          function (iframeHTML) {
-            let iframeViewHtml =
-              buildIframeViewHtml(
-                                      iframeHTML);
-            insertHtml("#folium-map", iframeViewHtml);
-          },
-          false);
+    //   $ajaxUtils.sendGetRequest(
+    //       iframeHTML,
+    //       function (iframeHTML) {
+    //         let iframeViewHtml =
+    //           buildIframeViewHtml(
+    //                                   iframeHTML);
+    //         insertHtml("#folium-map", iframeViewHtml);
+    //       },
+    //       false);
     
 
-    function buildIframeViewHtml(
-        iframeHTML) {
+    // function buildIframeViewHtml(
+    //     iframeHTML) {
         
         
-        //let html = iframeHTML;
-        //const site = foliumURL;
+    //     //let html = iframeHTML;
+    //     //const site = foliumURL;
         
-        iframeHTML = insertProperty(iframeHTML, "site_name", foliumURL);
-        return iframeHTML;
-    }
+    //     iframeHTML = insertProperty(iframeHTML, "site_name", foliumURL);
+    //     return iframeHTML;
+    // }
 
 
 
 });
-global.$dc = dc;
 
-})(window);
+
+})();
