@@ -106,9 +106,7 @@
     showLoading("#tabledata");
     showLoading("#folium-map");
 
-    fetch(tableUrl).then(function(response) {
-      console.log(response.status) 
-      return response.json()}).then(function(wholeJson) {
+    fetch(tableUrl).then(response => response.json()).then(function(wholeJson) {
         
         loadTable(wholeJson);
         loadSummary(wholeJson);
