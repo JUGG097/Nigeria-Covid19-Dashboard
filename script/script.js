@@ -5,7 +5,7 @@
   const tableUrl = "https://ng-covid-19-api.herokuapp.com/";
 
   const loadError = function(error, selector) {
-    let html = "<div class='text-center'>";
+    let html = "<div class='col-12 text-center'>";
     html += `<p>Error Message: ${error}</p> </div>`
     insertHtml(selector, html);
   }
