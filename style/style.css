@@ -14,6 +14,7 @@
 .navbackground {
     background-color: #29648A;
     color: white;
+    
 }
 
 .navbackground a {
@@ -109,4 +110,8 @@ h2 {
 }
 .navbar-dark .navbar-nav .nav-link {
     color: white;
+}
+
+.spe {
+    padding-top: 70px;
 }
